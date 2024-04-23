@@ -1,0 +1,187 @@
+let x = 200;
+let y = 200;
+let numCircles = 50;
+let option = 1;
+let x1 = 200;
+let y1 = 200;
+let horizon = 600;
+
+
+function setup() {
+  createCanvas(800, 800);
+  if(option == 2){
+    draw_Circle();
+  }
+}
+
+function draw() {
+
+  
+  if (option == 1){
+  optionOne();
+  }
+if (option == 2){
+  optionTwo();
+  }
+if (option == 3){
+  optionThree();
+  }
+ }
+
+//Trapped in a box as the world moves on
+function optionOne(){ 
+  frameRate(5); 
+  background(220);
+  citizens();
+  boundedPoint();
+  strokeWeight(1);
+  stroke(0);
+  line(285,0,285,215);
+  line(515,0,515,215);
+  line(285,215,515,215);
+
+}
+
+
+//Perpetually chasing only to never make contact
+function optionTwo(){
+  background(220);
+  noStroke();
+  fill(142, 154, 173);
+  circle(mouseX, mouseY, 20);
+  let e1 = ellipse(x1, y1, 30,40);
+  let distancetoPerson = dist(mouseX, mouseY, x1, y1);
+  if (distancetoPerson < 100 && distancetoPerson > 40){
+    fill(255, 13, 13);
+  }
+  if(distancetoPerson < 40){
+    background(220);
+    x1 = random(width);
+    y1 = random (height);
+  }
+   circle(mouseX, mouseY, 20);
+    e1 = ellipse(x1, y1, 30,40);
+}
+
+//Adrift at sea
+function optionThree(){
+  frameRate(2);
+  let fps = frameCount;
+  background(56, 67, 84);
+  noStroke();
+  drawSea();
+  drawBoat();
+  if (fps % 4 == 1){
+    horizon = 600;
+    beginShape();
+    noFill(0);
+    stroke(3);
+    vertex(800,680);
+    vertex(750,700);
+    vertex(700,680);
+    vertex(650,700);
+    
+    endShape();
+    
+  }
+  else if(fps % 4 == 2){
+    horizon = 605;
+    noFill(0);
+    stroke(3);
+    beginShape();
+    vertex(600,700);
+    vertex(550,720);
+    vertex(500,700);
+    vertex(450,720);
+    endShape();
+    
+  }
+  else if(fps % 4 == 3){
+    horizon = 600;
+    noFill(0);
+    stroke(3);
+    beginShape();
+    vertex(400,680);
+    vertex(350,700);
+    vertex(300,680);
+    vertex(250,700);
+    endShape();
+  }
+  else{
+    horizon = 605;
+    noFill(0);
+    stroke(3);
+    beginShape();
+    vertex(200,700);
+    vertex(150,720);
+    vertex(100,700);
+    vertex(50,720);
+    endShape();
+  }
+}
+
+function boundedPoint(){
+   strokeWeight(30);
+   stroke (100, 138, 85);
+  if(mouseY < 200){
+    pointY = mouseY;
+  }
+  else{
+    pointY = 200;
+  }
+  
+   if(mouseX > 300 && mouseX < 500){
+      point(mouseX, pointY);
+   }
+  else if (mouseX < 300) {
+    point(300,pointY);
+  }
+  else if (mouseX > 500){
+    point (500, pointY);
+  }
+}
+
+function citizens(){
+  for(let i = 0; i < numCircles; i++) {
+    let x = 30;
+    let xPos = random (1,800);
+    let yPos = random (1,800);
+    
+    if(xPos > 250 && xPos < 550 && yPos < 310){
+      noStroke();
+      fill(220);
+    }
+    else{
+      fill(50, 143, 168);
+    }
+    ellipse(xPos,yPos, x, x);
+    }
+}
+
+function drawSea(){
+  fill(20, 65, 89);
+  noStroke();
+  quad(0,600,0,800,800,800,800,600);
+}
+
+function makeWaves(){}
+
+function drawBoat(){
+  fill(255);
+  triangle(412, horizon-60, 412, horizon-20, 430, horizon-20);
+  triangle(408, horizon-80, 380, horizon-20, 408, horizon-20);
+  fill(92, 24, 24);
+  quad(360,horizon-10,370,horizon+20,430,horizon+20,440,horizon-10);
+  quad(408,horizon-80,408,horizon-10,412,horizon-10,412,horizon-80);
+}
+
+function mousePressed() { 
+  option++;
+  if (option>8) {
+    option=1;
+  }
+  
+}
+
+
+
